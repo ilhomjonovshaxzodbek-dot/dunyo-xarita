@@ -13,7 +13,7 @@ from groq import Groq
 load_dotenv()
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
-GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b")
 DB_PATH = os.environ.get("DB_PATH", "countries.db")
 
 app = FastAPI(title="Dunyo Xaritasi API")
@@ -124,7 +124,8 @@ def get_country_info(name: str):
                 {"role": "user", "content": f"Davlat: {name}"},
             ],
             temperature=0.5,
-            max_tokens=1800,
+            max_tokens=2200,
+            response_format={"type": "json_object"},
         )
         raw = completion.choices[0].message.content
         parsed = extract_json(raw)
